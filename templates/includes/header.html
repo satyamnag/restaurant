@@ -8,7 +8,7 @@
                     <div class="logo">
                         <figure>
                             <a href="{% url 'home' %}" class="light-logo">
-                                <img style="height: 40px; width: 220px;" src="{% static 'logo/logo_restaurant.png' %}" alt="restaurant">
+                                <img style="height: 25px; width: 140px;" src="{% static 'logo/logo_restaurant.png' %}" alt="restaurant">
                             </a>
                         </figure>
                     </div>
@@ -26,12 +26,39 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="login-option">
-                        <a class="cs-color cs-popup-joinus-btn login-popup" data-toggle="modal" href="">Login</a>
-                        <span>/</span>
-                        <a class="cs-color cs-popup-joinus-btn login-popup ml-0" data-toggle="modal" href="{% url 'registerUser' %}">Register</a>
-                        <a class="get-start-btn" href="{% url 'registerRestaurant' %}">
-                            Register
-                            Restaurant </a>
+                        {% if user.is_authenticated %}
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="field-holder">
+                                    <div class="payment-holder" style="display: flex;">
+                                        <input style="margin-right: 10px;" type="submit" value="My Account" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/app_accounts/myAccount'; return false;">                                        
+                                        <form method="POST" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <input type="submit" value="Logout" id="btn-next-restaurant-information" class="bgcolor">
+                                        </form>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="field-holder">
+                                    <div class="payment-holder" style="display: flex;">
+                                        <input type="submit" value="Login" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/app_accounts/login'; return false;">
+                                        <div class="dropdown" style="margin-left: 20px;">
+                                            <input type="submit" value="Register" id="btn-next-restaurant-information" class="bgcolor">
+                                            <div class="dropdown-content">
+                                                <a onclick="window.location.href='/app_accounts/registerUser'; return false;">User</a>
+                                                <a onclick="window.location.href='/app_accounts/registerRestaurant'; return false;">Restaurant</a>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

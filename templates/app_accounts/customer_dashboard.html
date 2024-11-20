@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container"  style="margin-top: 20px; margin-bottom: 20px;">
+    <h1>This a {{user.get_role}} Dashboard</h1>
+    <h1>Welcome {{ user.username }}</h1>
+</div>
+{% else %}
+<div class="container">
+    <div class="alert alert-info" role="alert"  style="margin-top: 20px; margin-bottom: 20px;">
+        Oops! Register or Login to access your dashboard.
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

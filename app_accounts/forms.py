@@ -2,8 +2,13 @@ from django.forms import *
 from .models import *
 
 class UserForm(ModelForm):
-    password=CharField(widget=PasswordInput())
-    confirm_password=CharField(widget=PasswordInput())
+    first_name=CharField(widget=TextInput(attrs={'placeholder': 'Enter your first name'}))
+    last_name=CharField(widget=TextInput(attrs={'placeholder': 'Enter your last name'}))
+    email=CharField(widget=TextInput(attrs={'placeholder': 'Enter your email address'}))
+    username=CharField(widget=TextInput(attrs={'placeholder': 'Enter your username'}))
+    password=CharField(widget=PasswordInput(attrs={'placeholder': 'Enter your password'}))
+    confirm_password=CharField(widget=PasswordInput(attrs={'placeholder': 'Confirm your password'}))
+
     class Meta:
         model=User
         fields=['first_name', 'last_name', 'username', 'email', 'password']

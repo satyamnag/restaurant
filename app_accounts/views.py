@@ -1,8 +1,24 @@
 from django.shortcuts import *
 from .forms import *
 from .models import *
-from django.contrib import messages
+from django.contrib import auth
 from vendor.forms import *
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import user_passes_test
+from .utils import detectUser
+from django.core.exceptions import PermissionDenied
+
+def check_role_vendor(user):
+    if user.role==1:
+        return True
+    else:
+        raise PermissionDenied
+    
+def check_role_customer(user):
+    if user.role==2:
+        return True
+    else:
+        raise PermissionDenied
 
 # Create your views here.
 def registerUser(request):
@@ -32,7 +48,6 @@ def registerUser(request):
             )
             user.role=User.CUSTOMER
             user.save()
-            messages.success(request, 'Your account has been registered successfully!')
             return redirect('registerUser')
         else:
             form.errors
@@ -68,7 +83,6 @@ def registerRestaurant(request):
             user_profile=UserProfile.objects.get(user=user)
             vendor.user_profile=user_profile
             vendor.save()
-            messages.success(request, 'Your account has been registered successfully! Please wait for the approval.')
             return redirect('registerRestaurant')
         else:
             form.errors
@@ -81,3 +95,29 @@ def registerRestaurant(request):
         'vendor_form':vendor_form,
     }
     return render(request, 'app_accounts/registerRestaurant.html', context)
+
+
+def login(request):
+    if request.method=='POST':
+        email=request.POST['email']
+        password=request.POST['password']
+        user=auth.authenticate(request, email=email, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('home')
+        else:
+            return redirect('login')
+    return render(request, 'app_accounts/login.html')
+
+def myAccount(request):
+    user=request.user
+    redirectUrl=detectUser(user)
+    return redirect(redirectUrl)
+
+@user_passes_test(check_role_vendor)
+def restaurant_dashboard(request):
+    return render(request, 'app_accounts/restaurant_dashboard.html')
+
+@user_passes_test(check_role_customer)
+def customer_dashboard(request):
+    return render(request, 'app_accounts/customer_dashboard.html')

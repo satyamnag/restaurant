@@ -5,16 +5,22 @@
 
 
 {% block content %}
-
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="alert alert-info" role="alert"  style="margin-top: 20px; margin-bottom: 20px;">
+        Dear {{user.username}}, you’re already logged in! There's no need to register yourself again. Please visit your account to manage your settings or continue exploring.
+    </div>
+</div>
+{% else %}
 <!-- Main Section Start -->
 <div class="main-section">
     <div class="page-section nopadding cs-nomargin" style="margin-top: 0px;padding-top: 60px;padding-bottom: 60px;margin-bottom: 0px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                    <div class="user-dashboard loader-holder">
+                    <div class="user-dashboard loader-holder" style="min-width: auto; min-height: auto;">
                         <div class="user-holder">
-                    <h4 class="text-center" style="margin-bottom: 0;">WELCOME TO RESTAURANT</h4>
+                    <h4 class="text-center" style="margin-bottom: 10px;">WELCOME TO RESTAURANT</h4>
                     <p class="text-center"><b>User</b> Registration Form</p>
                     <hr>
                     <div id="restaurant-sets-holder">
@@ -29,26 +35,29 @@
                                                     <li>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>First name</label>{{ form.first_name }}
+                                                                <label>First name</label>
+                                                                {{ form.first_name }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Last name</label>{{ form.last_name }}
+                                                                <label>Last name</label>
+                                                                {{ form.last_name }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Email Address</label>{{ form.email }}
+                                                                <label>Email Address</label>
+                                                                {{ form.email }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Username</label>{{ form.username }}
+                                                                <label>Username</label>
+                                                                {{ form.username }}
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    
                                                     <li>
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                             <div class="field-holder">
@@ -89,7 +98,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {% include 'includes/alerts.html' %}
                                 </li>
                             </ul>
                         </form>
@@ -102,5 +110,5 @@
     </div>
 </div>
 <!-- Main Section End -->
-
+{% endif %}
 {% endblock %}

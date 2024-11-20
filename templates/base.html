@@ -30,6 +30,50 @@
 		body, .main-section p, .mce-content-body p{
 			font:Normal  14px/24px "Open Sans", sans-serif;letter-spacing: 0px;text-transform: none;color: #515151 !important;
 		}
+
+
+		/* Style the dropdown container */
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		/* Style the dropdown button */
+		.dropbtn {
+			color	: white; /* White text */
+			border: none; /* Remove the border */
+			cursor: pointer; /* Pointer cursor on hover */
+		}
+
+		/* Dropdown content (hidden by default) */
+		.dropdown-content {
+			color: #c33332;
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: auto;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+			cursor: pointer;
+		}
+
+		/* Links inside the dropdown */
+		.dropdown-content a {
+			padding: 8px 13.2px;
+			text-decoration: none;
+			display: block; /* Make links appear as blocks */
+		}
+
+		/* Change color when hovering over a link */
+		.dropdown-content a:hover {
+			background-color: #f1f1f1;
+		}
+
+		/* Show the dropdown content when hovering over the dropdown container */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
 	</style>
 </head>
 
