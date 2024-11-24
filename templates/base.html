@@ -74,6 +74,33 @@
 			display: block;
 		}
 
+		.page-section.restaurant-detail-image-section {
+  			background: url('{{ vendor.user_profile.cover_photo.url }}') no-repeat scroll 0 0;
+  			background-size: cover;
+		}
+
+
+		.popup-message {
+        display: none; /* Initially hidden */
+        opacity: 0;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.5s ease, top 0.5s ease;
+    	}
+    
+		.popup-message.show {
+			display: block;
+			opacity: 1;
+			top: 20px;
+		}
+
 	</style>
 </head>
 
@@ -92,6 +119,26 @@
 	<!-- Modal Popup End -->
 	<script src="{% static 'js/scripts.js' %}"></script>
 	<script src="{% static 'js/functions.js' %}"></script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			// Get all messages
+			const messages = document.querySelectorAll('.popup-message');
+			
+			// Show and hide the messages with a fade effect
+			messages.forEach((message, index) => {
+				// Show the popup with a slight delay for each message
+				setTimeout(() => {
+					message.classList.add('show');
+				}, index * 500); // Stagger the popup appearance
+				
+				// Hide the popup after a few seconds
+				setTimeout(() => {
+					message.classList.remove('show');
+				}, index * 500 + 4000); // Hide after 4 seconds (adjust as needed)
+			});
+		});
+	</script>
 </body>
 
 </html>

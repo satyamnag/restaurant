@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .utils import *
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlsafe_base64_decode
+from vendor.models import Vendor
 
 def check_role_vendor(user):
     if user.role==1:
@@ -53,9 +54,14 @@ def registerUser(request):
             email_template='app_accounts/emails/account_verification_email.html'
             send_verification_email(request, user, mail_subject, email_template)
 
-            return redirect('registerUser')
+            messages.success(request, 'Your account has been created successfully. Please check your email to verify your account.')
+
+            return redirect('login')
         else:
-            form.errors
+            messages.error(request, 'There were some problems with your submission. Please check the form and try again.')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form=UserForm()
     
@@ -92,10 +98,18 @@ def registerRestaurant(request):
             email_template='app_accounts/emails/account_verification_email.html'
             send_verification_email(request, user, mail_subject, email_template)
 
+            messages.success(request, 'Your restaurant account has been created successfully. Please check your email to activate your account.')
+
             return redirect('registerRestaurant')
         else:
-            form.errors
+            messages.error(request, 'There were errors with your submission. Please check the form and try again.')
 
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+            for field, errors in vendor_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form=UserForm()
         vendor_form=VendorForm()
@@ -114,8 +128,10 @@ def login(request):
             user=auth.authenticate(request, email=email, password=password)
             if user is not None:
                 auth.login(request, user)
+                messages.success(request, 'You have logged in successfully.')
                 return redirect('home')
             else:
+                messages.error(request, 'Invalid email or password. Please try again.')
                 return redirect('login')
     return render(request, 'app_accounts/login.html')
 
@@ -123,6 +139,7 @@ def myAccount(request):
     user=request.user
     redirectUrl=detectUser(user)
     if redirectUrl is None:
+        messages.error(request, 'You need to log in to access this page.')
         return redirect('login')
     if isinstance(redirectUrl, HttpResponseRedirect):
         return redirect(redirectUrl.url)
@@ -146,9 +163,9 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active=True
         user.save()
-        pass
+        messages.success(request, 'Your account has been activated successfully. You can now log in.')
     else:
-        pass
+        messages.error(request, 'The activation link is invalid or expired.')
     return redirect('myAccount')
 
 def forgot_password(request):
@@ -161,10 +178,10 @@ def forgot_password(request):
                 mail_subject='Restaurant: Please reset you password.'
                 email_template='app_accounts/emails/reset_password_email.html'
                 send_verification_email(request, user, mail_subject, email_template)
-                messages.success(request, 'A password reset link has been sent to your email.')
+                messages.success(request, 'A password reset link has been sent to your email address.')
                 return redirect('forgot_password')
             else:
-                messages.error(request, 'No account found with this email address.')
+                messages.error(request, 'No account found with this email address. Please check and try again.')
                 return redirect('forgot_password')
     return render(request, 'app_accounts/forgot_password.html')
 
@@ -177,10 +194,10 @@ def reset_password_validate(request, uidb64, token):
 
     if user is not None and default_token_generator.check_token(user, token):
         request.session['uid'] =uid
-        messages.info(request, 'Please reset your password!')
+        messages.info(request, 'Please reset your password.')
         return redirect('reset_password')
     else:
-        messages.error(request, 'This link has been expired')
+        messages.error(request, 'This link has expired or is invalid.')
         return redirect('myAccount')
 
 
@@ -195,9 +212,9 @@ def reset_password(request):
             user.set_password(password)
             user.is_active=True
             user.save()
-            messages.success(request, 'Password reset successfully!')
+            messages.success(request, 'Your password has been reset successfully. You can now log in with your new password.')
             return redirect('login')
         else:
-            messages.error(request, 'Password do not match.')
+            messages.error(request, 'Passwords do not match. Please try again.')
             return redirect('reset_password')
     return render(request, 'app_accounts/reset_password.html')
