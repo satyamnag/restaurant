@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_accounts.context_processors.get_vendor',
+                'app_accounts.context_processors.get_google_api',
             ],
         },
     },
@@ -156,3 +157,5 @@ EMAIL_USE_TLS=config('EMAIL_USE_TLS')
 DEFAULT_FROM_EMAIL= config('DEFAULT_FROM_EMAIL')
 
 LOGIN_URL='/login/'
+
+GOOGLE_API_KEY='AlzaSygzGI150CbGgZhPgQvPkjovEkJnTAdmUhy'
