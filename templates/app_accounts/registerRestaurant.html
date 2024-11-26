@@ -48,32 +48,32 @@
                                                     <li>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>First name</label>{{ form.first_name }}
+                                                                <label style="display: flex;">First name <span style="color: red;">*</span></label>{{ form.first_name }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Last name</label>{{ form.last_name }}
+                                                                <label style="display: flex;">Last name <span style="color: red;">*</span></label>{{ form.last_name }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Restaurant name</label>{{ vendor_form.vendor_name }}
+                                                                <label style="display: flex;">Restaurant name <span style="color: red;">*</span></label>{{ vendor_form.vendor_name }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Restaurant license</label>{{ vendor_form.vendor_license }}
+                                                                <label style="display: flex;">Restaurant license <span style="color: red;">*</span></label>{{ vendor_form.vendor_license }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Email Address</label>{{ form.email }}
+                                                                <label style="display: flex;">Email Address <span style="color: red;">*</span></label>{{ form.email }}
                                                             </div>
                                                         </div>                                                        
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Username</label>{{ form.username }}
+                                                                <label style="display: flex;">Username <span style="color: red;">*</span></label>{{ form.username }}
                                                             </div>
                                                         </div>
                                                     </li>
@@ -81,13 +81,13 @@
                                                     <li>
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Password</label>
+                                                                <label style="display: flex;">Password <span style="color: red;">*</span></label>
                                                                 {{ form.password }}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                             <div class="field-holder">
-                                                                <label>Confirm Password</label>
+                                                                <label style="display: flex;">Confirm Password <span style="color: red;">*</span></label>
                                                                 {{ form.confirm_password }}
                                                             </div>
                                                         </div>
@@ -121,6 +121,7 @@
                                 </li>
                             </ul>
                         </form>
+                        <p style="margin-top: -40px;">Please note that fields marked with an asterisk (<span style="color: red;">*</span>) are required</p>
                     </div>
                 </div>
                     </div>

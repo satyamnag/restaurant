@@ -9,18 +9,27 @@ from .utils import *
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlsafe_base64_decode
 from vendor.models import Vendor
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.models import AnonymousUser
+
 
 def check_role_vendor(user):
-    if user.role==1:
+    if isinstance(user, AnonymousUser):
+        raise PermissionDenied("You must be logged in to access this resource.")
+    elif user.role == 1:
         return True
     else:
-        raise PermissionDenied
+        raise PermissionDenied("You do not have permission to access this resource.")
     
+
 def check_role_customer(user):
-    if user.role==2:
+    if isinstance(user, AnonymousUser):
+        raise PermissionDenied("You must be logged in to access this resource.")
+    elif user.role == 2:
         return True
     else:
-        raise PermissionDenied
+        raise PermissionDenied("You do not have permission to access this resource.")
+    
 
 # Create your views here.
 def registerUser(request):
@@ -125,15 +134,21 @@ def login(request):
         if 'password' in request.POST:
             email=request.POST['email']
             password=request.POST['password']
-            user=auth.authenticate(request, email=email, password=password)
-            if user is not None:
-                auth.login(request, user)
-                messages.success(request, 'You have logged in successfully.')
-                return redirect('home')
+            if email and password:
+                user=auth.authenticate(request, email=email, password=password)
+                if user is not None:
+                    auth.login(request, user)
+                    messages.success(request, 'You have logged in successfully.')
+                    return redirect('home')
+                else:
+                    messages.error(request, 'Invalid email or password. Please try again.')
+                    return redirect('login')
             else:
-                messages.error(request, 'Invalid email or password. Please try again.')
+                messages.error(request, 'Please enter both email and password.')
                 return redirect('login')
-    return render(request, 'app_accounts/login.html')
+    else:
+        return render(request, 'app_accounts/login.html')
+
 
 def myAccount(request):
     user=request.user
