@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} popup-message">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% if user.is_authenticated %}
+
+{% include 'includes/cover.html' %}
+
+<div class="container"  style="margin-top: 20px; margin-bottom: 20px;">
+    <!-- Main Section Start -->
+		<div class="main-section">
+			<div class="page-section account-header buyer-logged-in">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <!-- load the sidebar here -->
+                             {% include 'includes/restaurant_sidebar.html' %}
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+							<div class="user-dashboard loader-holder">
+								<div class="user-holder">
+									<h2 style="margin-bottom: 20px;" class="text-uppercase">Build your Food Menu</h2>
+									<!-- My Restaurants Form Start -->
+                                     <h3>Add New Category</h3>
+                                        
+									<!-- render form -->
+                                    <form action="{% url 'add_category' %}" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-fields-set">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="field-holder">
+                                                        <label for="">Category Name <span style="color: red;">*</span></label>
+                                                        {{ form.category_name }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="field-holder">
+                                                        <label for="">Description <span style="color: red;">*</span></label>
+                                                        {{ form.description }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                <li style="color: red;">{{ error }}</li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <div class="payment-holder input-button-loader" style="display: flex; width: 100%;">
+                                            <a href="" style="display: inline-block;">
+                                                <input type="submit" value="Submit" class="bgcolor" />
+                                            </a>
+                                        </div>
+                                    </form>
+									<!-- My Restaurants Form End -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Main Section End -->
+</div>
+{% else %}
+<div class="container">
+    <div class="alert alert-info" role="alert"  style="margin-top: 20px; margin-bottom: 20px;">
+        Oops! Register or Login to access your dashboard.
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
