@@ -80,11 +80,6 @@
 			display: block;
 		}
 
-		.page-section.restaurant-detail-image-section {
-  			background: url('{{ vendor.user_profile.cover_photo.url }}') no-repeat scroll 0 0;
-  			background-size: cover;
-		}
-
 
 		.popup-message {
         display: none; /* Initially hidden */
@@ -113,6 +108,24 @@
 			cursor: pointer;
 		}
 	</style>
+
+
+	{% if vendor.user_profile.cover_photo %}
+	<style>
+		.page-section.restaurant-detail-image-section {
+			background: url('{{ vendor.user_profile.cover_photo.url }}') no-repeat scroll 0 0;
+			background-size: cover;
+		}
+	</style>
+	{% else %}
+	<style>
+		.page-section.restaurant-detail-image-section {
+			background: url('https://reactplay.io/static/media/placeholder_cover.ea7b18e0704561775829.jpg') no-repeat scroll 0 0;
+			background-size: cover;
+		}
+	</style>
+	{% endif %}
+
 </head>
 
 <body>

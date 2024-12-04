@@ -32,7 +32,7 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="field-holder">
                                     <div class="payment-holder" style="display: flex;">
-                                        <input style="margin-right: 10px;" type="submit" value="My Account" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/app_accounts/myAccount'; return false;">                                        
+                                        <input style="margin-right: 10px;" type="submit" value="My Account" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/myAccount'; return false;">                                        
                                         <form method="POST" action="{% url 'logout' %}">
                                             {% csrf_token %}
                                             <input type="submit" value="Logout" id="btn-next-restaurant-information" class="bgcolor">
@@ -46,12 +46,12 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="field-holder">
                                     <div class="payment-holder" style="display: flex;">
-                                        <input type="submit" value="Login" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/app_accounts/login'; return false;">
+                                        <input type="submit" value="Login" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/login'; return false;">
                                         <div class="dropdown" style="margin-left: 20px;">
                                             <input type="submit" value="Register" id="btn-next-restaurant-information" class="bgcolor">
                                             <div class="dropdown-content">
-                                                <a onclick="window.location.href='/app_accounts/registerUser'; return false;">User</a>
-                                                <a onclick="window.location.href='/app_accounts/registerRestaurant'; return false;">Restaurant</a>
+                                                <a onclick="window.location.href='/registerUser'; return false;">User</a>
+                                                <a onclick="window.location.href='/registerRestaurant'; return false;">Restaurant</a>
                                             </div>
                                         </div>                                        
                                     </div>

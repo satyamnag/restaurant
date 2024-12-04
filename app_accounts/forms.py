@@ -2,7 +2,7 @@ from django.forms import *
 from .models import *
 from .validators import allow_only_images_validator
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 class UserForm(ModelForm):
@@ -30,8 +30,8 @@ class UserForm(ModelForm):
 # @login_required
 class UserProfileForm(ModelForm):
     address=CharField(widget=TextInput(attrs={'placeholder': 'Start typing...'}))
-    profile_picture=FileField(widget=FileInput(attrs={'class':'btn btn-info'}), validators=[allow_only_images_validator])
-    cover_photo=FileField(widget=FileInput(attrs={'class':'btn btn-info'}), validators=[allow_only_images_validator])
+    profile_picture=FileField(widget=FileInput(attrs={'class':'btn btn-info w-100'}), validators=[allow_only_images_validator])
+    cover_photo=FileField(widget=FileInput(attrs={'class':'btn btn-info w-100'}), validators=[allow_only_images_validator])
 
     # latitude=CharField(widget=TextInput(attrs={'readonly':'readonly', 'style':'color:gray;'}))
     # longitude=CharField(widget=TextInput(attrs={'readonly':'readonly', 'style':'color:gray;'}))

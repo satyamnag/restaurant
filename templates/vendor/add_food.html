@@ -42,28 +42,50 @@
                                     <br>
                                     <br>
 									<!-- My Restaurants Form Start -->
-                                     <h3>Modify Category</h3>
-                                        
+                                    <h3>Add New Food Item</h3>
 									<!-- render form -->
-                                    <form action="{% url 'edit_category' category.id %}" method="POST">
+                                    <form action="{% url 'add_food' %}" method="POST" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="form-fields-set">
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="field-holder">
-                                                        <label>Category Name <span style="color: red;">*</span></label>
-                                                        {{ form.category_name }}
+                                                        <label for="">Food Category <span style="color: red;">*</span></label>
+                                                        {{ form.category }}
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="field-holder">
-                                                        <label>Description <span style="color: red;">*</span></label>
+                                                        <label for="">Food Name <span style="color: red;">*</span></label>
+                                                        {{ form.food_title }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="field-holder">
+                                                        <label for="">Description <span style="color: red;">*</span></label>
                                                         {{ form.description }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <div class="field-holder">
+                                                        <label for="">Price <span style="color: red;">*</span></label>
+                                                        {{ form.price }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <div class="field-holder">
+                                                        <label for="">Photo <span style="color: red;">*</span></label>
+                                                        {{ form.image }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <div class="field-holder">
+                                                        <label for="">Availability (Leave the box checked if available, or uncheck the box if not available.) <span style="color: red;">*</span></label>
+                                                        {{ form.is_available }}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                         {% for field in form %}
                                             {% if field.errors %}
                                                 {% for error in field.errors %}

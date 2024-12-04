@@ -65,10 +65,17 @@
                                                         <p class="text-muted" style="text-align: justify;">{{ fooditem.description }}</p>
                                                     </a>
                                                 </td>
+                                                <td>
+                                                    {% if fooditem.is_available %}
+                                                    <span class="badge bg-success">Available</span>
+                                                    {% else %}
+                                                    <span class="badge bg-secondary">Not Available</span>
+                                                    {% endif %}
+                                                </td>
                                                 <td class="text-right">
                                                     <div class="payment-holder input-button-loader float-right" style="display: flex;">
-                                                        <a href=""><input type="submit" value='Edit' class="bgcolor" style="margin-right: 4px;"></a>
-                                                        <a href=""><input type="submit" value="Delete" class="bgcolor"></a>
+                                                        <a href="{% url 'edit_food' fooditem.id %}"><input type="submit" value='Edit' class="bgcolor" style="margin-right: 4px;"></a>
+                                                        <a href="{% url 'delete_food' fooditem.id %}" onclick="return confirm('Are you sure you want to delete this Food Item?')"><input type="submit" value="Delete" class="bgcolor"></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -78,10 +85,10 @@
                                     {% else %}
                                     <h5 style="text-align: center;">No food items found.</h5>
                                     <div class="payment-holder input-button-loader" style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                                        <a href="" style="display: inline-block;">
+                                        <a href="{% url 'add_food' %}" style="display: inline-block;">
                                             <input type="submit" value="Add Food" class="bgcolor" />
                                         </a>
-                                    </div>                                                                        
+                                    </div>                                                                      
                                     {% endif %}
 									<!-- My Restaurants Form End -->
 								</div>

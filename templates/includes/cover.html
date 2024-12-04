@@ -10,7 +10,11 @@
                     <div class="company-info">
                         <div class="img-holder">
                             <figure>
+                                {% if vendor.user_profile.profile_picture %}
                                 <img src="{{ vendor.user_profile.profile_picture.url }}" alt="">
+                                {% else %}
+                                <img src="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg" alt="">
+                                {% endif %}
                             </figure>
                         </div>
 

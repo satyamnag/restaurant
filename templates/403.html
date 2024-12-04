@@ -1,2 +1,9 @@
-<p style="color: red;">You are not authorised to view this page.</p>
-<a href="{% url 'home' %}"><button type="button">Home</button></a>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="alert alert-danger" role="alert">
+        You are not authorised to view this page. Register and Login first.
+      </div>
+</div>
+{% endblock %}

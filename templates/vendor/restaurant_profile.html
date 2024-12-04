@@ -34,7 +34,7 @@
 							<div class="user-dashboard loader-holder">
 								<div class="user-holder">
 									<h2 style="margin-bottom: 20px;" class="text-uppercase">Manage Your Restaurant</h2>
-									<p style="margin-bottom: 20px;">Please note that fields marked with an asterisk (<span style="color: red;">*</span>) are required</p>
+									<p style="margin-bottom: 20px;">Please note that fields marked with an asterisk (<span style="color: red;">*</span>) are required.</p>
 									<!-- My Restaurants Form Start -->
 									<form action="{% url 'restaurant_profile' %}" method="POST" enctype="multipart/form-data">
 										{% csrf_token %}
@@ -49,7 +49,11 @@
 																		<li class="gal-img">
 																			<div class="drag-list">
 																				<div class="item-thumb">
+																					{% if profile.profile_picture %}
 																					<img class="thumbnail" src="{{ profile.profile_picture.url }}" alt="profile picture">
+                                													{% else %}
+																					<img class="thumbnail" src="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg" alt="profile picture">
+                                													{% endif %}
 																				</div>
 																			</div>
 																		</li>
@@ -71,7 +75,11 @@
 																		<li class="gal-img">
 																			<div class="drag-list">
 																				<div class="item-thumb">
+																					{% if profile.cover_photo %}
 																					<img class="thumbnail" src="{{ profile.cover_photo.url }}" alt="cover photo">
+																					{% else %}
+																					<img class="thumbnail" src="https://reactplay.io/static/media/placeholder_cover.ea7b18e0704561775829.jpg" alt="cover photo">
+																					{% endif %}
 																				</div>
 																			</div>
 																		</li>
