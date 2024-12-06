@@ -32,6 +32,11 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="field-holder">
                                     <div class="payment-holder" style="display: flex;">
+                                        <a href="{% url 'cart' %}" style="display: flex; color: white;">
+                                            <img style="width: 50px; margin-right: 20px;" src="https://cdn-icons-png.freepik.com/256/4290/4290854.png?ga=GA1.1.848643146.1724153286&semt=ais_hybrid" alt="">
+                                            <span id="cart_counter" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">{{ cart_count }}</span>
+                                        </a>
+                                        <input style="margin-right: 10px;" type="submit" value="Marketplace" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/marketplace'; return false;">
                                         <input style="margin-right: 10px;" type="submit" value="My Account" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/myAccount'; return false;">                                        
                                         <form method="POST" action="{% url 'logout' %}">
                                             {% csrf_token %}
@@ -46,8 +51,9 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="field-holder">
                                     <div class="payment-holder" style="display: flex;">
+                                        <input style="margin-right: 10px;" type="submit" value="Marketplace" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/marketplace'; return false;">
                                         <input type="submit" value="Login" id="btn-next-restaurant-information" class="bgcolor" onclick="window.location.href='/login'; return false;">
-                                        <div class="dropdown" style="margin-left: 20px;">
+                                        <div class="dropdown" style="margin-left: 10px;">
                                             <input type="submit" value="Register" id="btn-next-restaurant-information" class="bgcolor">
                                             <div class="dropdown-content">
                                                 <a onclick="window.location.href='/registerUser'; return false;">User</a>

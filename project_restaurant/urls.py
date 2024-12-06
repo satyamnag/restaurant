@@ -19,9 +19,14 @@ from django.urls import path, include
 from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from marketplace import views as marketplace_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('', include('app_accounts.urls')),
+    path('marketplace/', include('marketplace.urls')),
+
+    #Cart
+    path('cart/', marketplace_views.cart, name='cart'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
