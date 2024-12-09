@@ -35,7 +35,7 @@
                                                 </a>
                                             </figure>
                                             {% if vendor.is_approved %}
-										    <span class="restaurant-status open"><em class="bookmarkRibbon"></em>Open</span>
+										    <span class="restaurant-status open"><em class="bookmarkRibbon"></em>open</span>
 										    {% else %}
 										    <span class="restaurant-status close"><em class="bookmarkRibbon"></em>close</span>
 										    {% endif %}
@@ -48,7 +48,6 @@
                                             </div>
                                             {% if vendor.user_profile.address %}
                                             <span><small class="text-muted">{{ vendor.user_profile.address }}</small></span>
-                                            {% else %}
                                             {% endif %}
                                         </div>
                                         <div class="payment-holder input-button-loader list-option">
@@ -105,6 +104,11 @@
                                             {% if vendor.user_profile.address %}
                                             <span><small class="text-muted">{{ vendor.user_profile.address }}</small></span>
                                             {% else %}
+                                            {% endif %}
+                                            <br>
+                                            <br>
+                                            {% if source_location %}
+                                            <span><small><b>{{ vendor.kms }}km.</b> away from {{ source_location }}</small></span>
                                             {% endif %}
                                         </div>
                                         <div class="payment-holder input-button-loader list-option">

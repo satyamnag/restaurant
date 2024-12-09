@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'vendor',
     'menu',
     'marketplace',
+    'django.contrib.gis',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +89,8 @@ WSGI_APPLICATION = 'project_restaurant.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE':'django.contrib.gis.db.backends.postgis',
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
@@ -162,4 +165,15 @@ DEFAULT_FROM_EMAIL= config('DEFAULT_FROM_EMAIL')
 
 LOGIN_URL='/login/'
 
-GOOGLE_API_KEY='AlzaSygzGI150CbGgZhPgQvPkjovEkJnTAdmUhy'
+GOOGLE_API_KEY='AlzaSyhIhGAQJa7YNDko1XLIDl-81Lru4uPBQuI'
+
+# os.environ['PATH'] = os.path.join(BASE_DIR, 'envLibsite-packagesosgeo') + ';' + os.environ['PATH']
+# os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'envLibsite-packagesosgeodataproj') + ';' + os.environ['PATH']
+# GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'envLibsite-packagesosgeogdal.dll')
+
+
+os.environ['PATH'] = os.path.join(BASE_DIR, 'env', 'Lib', 'site-packages', 'osgeo') + ';' + os.environ['PATH']
+os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'env', 'Lib', 'site-packages', 'osgeo', 'data', 'proj') + ';' + os.environ.get('PROJ_LIB', '')
+
+# Set the GDAL_LIBRARY_PATH to the correct DLL path
+GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'env', 'Lib', 'site-packages', 'osgeo', 'gdal.dll')  # Update the DLL path
