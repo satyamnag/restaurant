@@ -165,7 +165,7 @@ DEFAULT_FROM_EMAIL= config('DEFAULT_FROM_EMAIL')
 
 LOGIN_URL='/login/'
 
-GOOGLE_API_KEY='AlzaSyhIhGAQJa7YNDko1XLIDl-81Lru4uPBQuI'
+GOOGLE_API_KEY=config('GOOGLE_API_KEY')
 
 # os.environ['PATH'] = os.path.join(BASE_DIR, 'envLibsite-packagesosgeo') + ';' + os.environ['PATH']
 # os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'envLibsite-packagesosgeodataproj') + ';' + os.environ['PATH']
