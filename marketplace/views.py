@@ -11,11 +11,15 @@ from django.db.models import Q
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
+from vendor.models import OpeningHour
+from datetime import date
+import datetime as dt
 
 # Create your views here.
 def marketplace(request):
     vendors=Vendor.objects.filter(is_approved=True,user__is_active=True)
     vendor_count=vendors.count()
+
     context={
         'vendors':vendors,
         'vendor_count':vendor_count,
@@ -31,6 +35,13 @@ def vendor_detail(request, vendor_slug):
         )
     )
 
+    opening_hours=OpeningHour.objects.filter(vendor=vendor).order_by('day', '-from_hour')
+
+    # today opening hours
+    today_date=date.today()
+    today=today_date.isoweekday()
+    today_opening_hours=OpeningHour.objects.filter(vendor=vendor, day=today)
+    
     if request.user.is_authenticated:
         cart_items=Cart.objects.filter(user=request.user)
     else:
@@ -40,6 +51,8 @@ def vendor_detail(request, vendor_slug):
         'vendor':vendor,
         'categories':categories,
         'cart_items':cart_items,
+        'opening_hours':opening_hours,
+        'today_opening_hours':today_opening_hours,
     }
     return render(request, 'marketplace/vendor_detail.html', context)
 

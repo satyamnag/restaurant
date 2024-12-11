@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import VendorForm
+from .forms import VendorForm, OpeningHourForm
 from app_accounts.forms import UserProfileForm
 from app_accounts.models import UserProfile
-from .models import Vendor
+from .models import Vendor, OpeningHour
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
@@ -11,6 +11,9 @@ from menu.models import Category
 from menu.models import FoodItem
 from menu.forms import CategoryForm, FoodItemForm
 from django.template.defaultfilters import slugify
+from django.http import HttpResponse
+from django.db import IntegrityError
+from django.http import JsonResponse
 
 def get_vendor(request):
     vendor=Vendor.objects.get(user=request.user)
@@ -171,3 +174,72 @@ def delete_food(request, pk=None):
     food.delete()
     messages.info(request, 'Food Item has been deleted successfully!')
     return redirect('fooditems_by_category', food.category.id)
+
+
+def opening_hours(request):
+    opening_hours=OpeningHour.objects.filter(vendor=get_vendor(request))
+    form=OpeningHourForm()
+    context={
+        'form':form,
+        'opening_hours':opening_hours,
+    }
+    return render(request, 'vendor/opening_hours.html', context)
+
+
+def add_opening_hours(request):
+    # handle the data and save them inside database
+    if request.user.is_authenticated:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.method=='POST':
+            day=request.POST.get('day')
+            from_hour=request.POST.get('from_hour')
+            to_hour=request.POST.get('to_hour')
+            is_closed=request.POST.get('is_closed')
+
+            existing_hour = OpeningHour.objects.filter(vendor=get_vendor(request), day=day).first()
+            if existing_hour:
+                if existing_hour:
+                    if not existing_hour.is_closed:
+                        return JsonResponse({
+                            'status': 'failed', 
+                            'message': f'{existing_hour.get_day_display()} already has opening hours set.'
+                        })
+                    else:
+                        return JsonResponse({
+                            'status': 'failed', 
+                            'message': f'{existing_hour.get_day_display()} already has closing hours.'
+                        })
+                else:
+                    existing_hour.delete()
+            try:
+                hour=OpeningHour.objects.create(
+                    vendor=get_vendor(request),
+                    day=day,
+                    from_hour=from_hour,
+                    to_hour=to_hour,
+                    is_closed=is_closed
+                    )
+                if hour:
+                    day=OpeningHour.objects.get(id=hour.id)
+                    if day.is_closed:
+                        response={'status':'success', "id":hour.id, 'day':day.get_day_display(), 'is_closed':'Closed'}
+                    else:
+                        response={'status':'success', "id":hour.id, 'day':day.get_day_display(), 'from_hour':hour.from_hour, 'to_hour':hour.to_hour}
+                    return JsonResponse(response)
+                response={'status':'success'}
+                return JsonResponse(response)
+            except IntegrityError as e:
+                return JsonResponse({'status': 'failed', 'message': from_hour+'-'+to_hour+' already exists for the day!'})
+            except Exception as e:
+                return JsonResponse({'status': 'failed', 'message': str(e)})
+        else:
+            return JsonResponse({'status': 'failed', 'message': 'Invalid request type'})
+
+    return JsonResponse({'status': 'failed', 'message': 'User not authenticated'})
+
+
+def remove_opening_hours(request, pk=None):
+    if request.user.is_authenticated:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            hour=get_object_or_404(OpeningHour, pk=pk)
+            hour.delete()
+            return JsonResponse({'status':'success', 'id':pk})

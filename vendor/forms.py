@@ -8,3 +8,8 @@ class VendorForm(ModelForm):
     class Meta:
         model=Vendor
         fields=['vendor_name', 'vendor_license']
+
+class OpeningHourForm(ModelForm):
+    class Meta:
+        model=OpeningHour
+        fields=['day', 'from_hour', 'to_hour', 'is_closed']
