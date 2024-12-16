@@ -47,3 +47,8 @@ class UserProfileForm(ModelForm):
                 if isinstance(widget.attrs, dict):
                     widget.attrs['readonly'] = 'readonly'
                     widget.attrs['style'] = 'color: gray;'
+
+class UserInfoForm(ModelForm):
+    class Meta:
+        model=User
+        fields=['first_name', 'last_name', 'phone_number']

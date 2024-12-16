@@ -1,47 +1,16 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% load static %}
 
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container"  style="margin-top: 20px; margin-bottom: 20px;">
-    <h1>This a {{user.get_role}} Dashboard</h1>
-    <h1>Welcome {{ user.username }}</h1>
 
     <!-- Main Section Start -->
 		<div class="main-section">
-            <div class="page-section restaurant-detail-image-section">
-				<!-- Container Start -->
-				<div class="container">
-					<!-- Row Start -->
-					<div class="row">
-						<!-- Column Start -->
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="company-info-detail">
-								<div class="company-info">
-									<div class="img-holder">
-										<figure>
-											<img src="{% static 'extra-images/listing-logo18.png' %}" alt="">
-										</figure>
-									</div>
-
-									<div class="text-holder">
-										<span class="restaurant-title">SATYAM NAG</span>
-										<div class="text">
-											<i class="icon-location"></i>
-											<p>+91 8917520676</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Column End -->
-					</div>
-					<!-- Row End -->
-				</div>
-				<!-- Container End -->
-			</div>
+            
+			{% include 'customers/cover.html' %}
 			<div class="page-section account-header buyer-logged-in">
 				<div class="container">
 					<div class="row">

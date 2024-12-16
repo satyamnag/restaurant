@@ -119,6 +119,13 @@
 			background-size: cover;
 		}
 	</style>
+	{% elif user_profile.cover_photo %}
+	<style>
+		.page-section.restaurant-detail-image-section {
+			background: url('{{ user_profile.cover_photo.url }}') no-repeat scroll 0 0;
+			background-size: cover;
+		}
+	</style>
 	{% else %}
 	<style>
 		.page-section.restaurant-detail-image-section {

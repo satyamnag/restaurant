@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'menu',
     'marketplace',
     'django.contrib.gis',
+    'customers',
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,7 @@ TEMPLATES = [
                 'app_accounts.context_processors.get_google_api',
                 'marketplace.context_processors.get_cart_count',
                 'marketplace.context_processors.get_cart_amounts',
+                'app_accounts.context_processors.get_user_profile',
             ],
         },
     },
