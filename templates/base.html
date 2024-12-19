@@ -33,7 +33,12 @@
 	{% endif %}
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="{% static 'js/custom.js' %}"></script>
+	
+	<!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}&currency=USD"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+	
 	<style>
 		body, .main-section p, .mce-content-body p{
 			font:Normal  14px/24px "Open Sans", sans-serif;letter-spacing: 0px;text-transform: none;color: #515151 !important;
@@ -109,6 +114,72 @@
 			font-size: 12px;
 			cursor: pointer;
 		}
+
+
+		.popup-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+		.popup-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-content h2 {
+            color: #4CAF50;
+            font-size: 24px;
+        }
+
+        .popup-content i {
+            font-size: 50px;
+            color: #4CAF50;
+        }
+
+        .close-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+		  
+		.bg-white.p-3.paid-image {
+    		background-image: url("{% static 'images/paid.png' %}");
+    		background-size: 75%;
+    		background-repeat: no-repeat;
+    		background-position: center;
+			position: relative;
+			padding: 20px;
+		}
+
+		.bg-white.p-3.paid-image > .justify-content-center {
+			position: relative;
+			z-index: 2;
+			color: white;
+		}
+
+		.bg-white.p-3.paid-image {
+			text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+		}
+
+		.bg-white.p-3.paid-image span, .bg-white.p-3.paid-image p {
+			text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+		}
+
 	</style>
 
 

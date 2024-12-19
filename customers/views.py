@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
-from app_accounts.views import check_role_customer, check_role_vendor
+from app_accounts.views import check_role_customer
 from app_accounts.forms import UserProfileForm, UserInfoForm
-from app_accounts.models import UserProfile, User
+from app_accounts.models import UserProfile
 from django.contrib import messages
 
 # Create your views here.

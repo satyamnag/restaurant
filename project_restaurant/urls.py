@@ -16,20 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import *
+from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from marketplace import views as marketplace_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),
+    path('', views.home, name='home'),
     path('', include('app_accounts.urls')),
     path('marketplace/', include('marketplace.urls')),
 
-    #Cart
+    # Cart
     path('cart/', marketplace_views.cart, name='cart'),
 
-    #Search
+    # Search
     path('search/', marketplace_views.search, name='search'),
+
+    # Checkout
+    path('checkout/', marketplace_views.checkout, name='checkout'),
+
+    # Orders
+    path('orders/', include('orders.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

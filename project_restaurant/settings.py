@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'marketplace',
     'django.contrib.gis',
     'customers',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,7 @@ TEMPLATES = [
                 'marketplace.context_processors.get_cart_count',
                 'marketplace.context_processors.get_cart_amounts',
                 'app_accounts.context_processors.get_user_profile',
+                'app_accounts.context_processors.get_paypal_client_id',
             ],
         },
     },
@@ -179,3 +181,7 @@ os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'env', 'Lib', 'site-packages', '
 
 # Set the GDAL_LIBRARY_PATH to the correct DLL path
 GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'env', 'Lib', 'site-packages', 'osgeo', 'gdal.dll')  # Update the DLL path
+
+PAYPAL_CLIENT_ID=config('PAYPAL_CLIENT_ID')
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'

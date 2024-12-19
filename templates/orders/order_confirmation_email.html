@@ -1,0 +1,12 @@
+{% autoescape off %}
+
+Hi,
+
+You have received a new order.
+The order number is {{ order.order_number }}
+Transaction ID: {{ order.payment.transaction_id }}
+
+Regards,
+Team Restaurant
+
+{% endautoescape %}
