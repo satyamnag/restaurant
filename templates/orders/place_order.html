@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
 <!-- Main Section Start -->
@@ -99,8 +100,13 @@
                                                     <span id="total">{{ grand_total }}</span>
                                                 </span>
                                             </li>
-                                            <!-- PayPal Checkout Button -->
-                                             <div id="paypal-button-container"></div>
+                                            {% if order.payment_method == 'RazorPay' %}
+                                            <div id="razorpay-payment-button"><button style="width: 100%; height: 32px; color: white; border-radius: 2px; border: none;" id="rzp-button1" class="bgcolor">Pay with RazorPay</button></div>
+                                            <span style="display: block; text-align: right;">Powered by <img width="100px" src="https://framerusercontent.com/images/apE2tIqb1SpkFBcRkZky8sCio.gif" alt=""></span>
+                                            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                                            {% else %}
+                                            <div id="paypal-button-container"></div>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </div>
@@ -174,6 +180,45 @@
                 });
             }
         }).render('#paypal-button-container');
+        // RazorPay Payment Gateway
+
+        // RazorPay Payment Gateway
+        var options = {
+            "key": "{{ RAZORPAY_KEY_ID }}", // Enter the Key ID generated from the Dashboard
+            "amount": "{{ rzp_amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Restaurant", //your business name
+            "description": "Restaurant - A Multi-Vendor Restaurant Marketplace",
+            "image": "{% static 'logo/logo_restaurant.png' %}",
+            "order_id": "{{ razorpay_order_id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler":function(response){
+                const element=document.getElementById('razorpay-payment-button');
+                element.innerHTML='';
+                element.innerHTML='<h4 class="text-center"><i class="fa fa-spinner fa-spin"></i>Please wait...</h4>';
+
+                var transaction_id=response.razorpay_payment_id
+                var payment_method='RazorPay'
+                var status='Success'
+                sendTransaction(transaction_id, payment_method, status)
+
+            },
+            "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+                "name": "{{ order.name }}", //your customer's name
+                "email": "{{ order.email }}",
+                "contact": "{{ order.phone }}" //Provide the customer's phone number for better conversion rates 
+            },
+            "notes": {
+                "address": "{{ order.address }}"
+            },
+            "theme": {
+                "color": "#c3333"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        }
 
         // send the data to payment view to store the database
         function sendTransaction(transaction_id, payment_method, status){

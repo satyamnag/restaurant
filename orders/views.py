@@ -9,6 +9,12 @@ from .models import Payment, OrderedFood
 from app_accounts.utils import send_notification_email
 from django.contrib.auth.decorators import user_passes_test
 from app_accounts.views import check_role_customer
+import razorpay
+from project_restaurant.settings import RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET
+
+
+client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
+
 
 # Create your views here.
 @user_passes_test(check_role_customer)
@@ -44,9 +50,25 @@ def place_order(request):
             order.save()
             order.order_number=generate_order_number(order.id)
             order.save()
+
+            # RayzorPay Payment
+            DATA = {
+                "amount": float(order.total) * 100,
+                "currency": "INR",
+                "receipt": "receipt#"+order.order_number,
+                "notes": {
+                    "key1": "value3",
+                    "key2": "value2"
+                }
+            }
+            razorpay_order=client.order.create(data=DATA)
+            razorpay_order_id=razorpay_order['id']
             context={
                 'order':order,
                 'cart_items':cart_items,
+                'razorpay_order_id':razorpay_order_id,
+                'RAZORPAY_KEY_ID':RAZORPAY_KEY_ID,
+                'rzp_amount':float(order.total) * 100,
             }
             return render(request, 'orders/place_order.html', context)
         else:
@@ -155,3 +177,6 @@ def order_complete(request):
         return render(request, 'orders/order_complete.html', context)
     except:
         return redirect('home')
+    
+
+
