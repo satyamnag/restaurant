@@ -12,6 +12,7 @@ from vendor.models import Vendor
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import AnonymousUser
 from django.template.defaultfilters import slugify
+from orders.models import Order
 
 
 def check_role_vendor(user):
@@ -169,7 +170,14 @@ def restaurant_dashboard(request):
 
 @user_passes_test(check_role_customer)
 def customer_dashboard(request):
-    return render(request, 'app_accounts/customer_dashboard.html')
+    orders=Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+    recent_orders=orders[:5]
+    context={
+        'orders':orders,
+        'orders_count':orders.count(),
+        'recent_orders':recent_orders,
+    }
+    return render(request, 'app_accounts/customer_dashboard.html', context)
 
 def activate(request, uidb64, token):
     try:
