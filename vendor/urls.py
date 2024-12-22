@@ -23,4 +23,8 @@ urlpatterns=[
     path('opening-hours', opening_hours, name='opening_hours'),
     path('opening-hours/add/', add_opening_hours, name='add_opening_hours'),
     path('opening-hours/remove/<int:pk>/', remove_opening_hours, name='remove_opening_hours'),
+
+    # Order details
+    path('order_details/<int:order_number>', order_details, name='vendor_order_details'),
+    path('my_orders/', my_orders, name='vendor_my_orders'),
 ]

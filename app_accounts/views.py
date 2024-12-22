@@ -13,6 +13,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import AnonymousUser
 from django.template.defaultfilters import slugify
 from orders.models import Order
+import datetime
 
 
 def check_role_vendor(user):
@@ -166,12 +167,36 @@ def myAccount(request):
 
 @user_passes_test(check_role_vendor)
 def restaurant_dashboard(request):
-    return render(request, 'app_accounts/restaurant_dashboard.html')
+    vendor=Vendor.objects.get(user=request.user)
+    orders=Order.objects.filter(vendors__in=[vendor.id], is_ordered=True).order_by('-created_at')
+    recent_orders=orders[:100]
+
+    # Current month's revenue
+    current_month=datetime.datetime.now().month
+    current_month_orders=orders.filter(vendors__in=[vendor.id], created_at__month=current_month)
+
+    current_month_revenue=0
+    for current_month_order in current_month_orders:
+        current_month_revenue+=current_month_order.get_total_by_vendor()['grand_total']
+
+    # Total revenue
+    total_revenue=0
+    for order in orders:
+        total_revenue += order.get_total_by_vendor()['grand_total']
+
+    context={
+        'orders':orders,
+        'orders_count':orders.count(),
+        'recent_orders':recent_orders,
+        'total_revenue':total_revenue,
+        'current_month_revenue':current_month_revenue,
+    }
+    return render(request, 'app_accounts/restaurant_dashboard.html', context)
 
 @user_passes_test(check_role_customer)
 def customer_dashboard(request):
     orders=Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
-    recent_orders=orders[:5]
+    recent_orders=orders[:100]
     context={
         'orders':orders,
         'orders_count':orders.count(),
